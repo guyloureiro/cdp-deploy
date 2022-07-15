@@ -16,10 +16,11 @@ from pprint import pprint
 # https://github.com/mkby/myinstaller/blob/master/deploy_cdh.py
 # https://gist.github.com/gdgt/d2eb4abe39da05353a58451c103f41e5
 
-hostname = None
+hostname = 'localhost'
 password = None
 localrepo = False
 parcelsuri = ''
+license=0
 
 # Configure HTTP basic authorization: basic
 cm_client.configuration.username = 'admin'
@@ -29,13 +30,14 @@ cm_client.configuration.password = 'admin'
 cm_client.configuration.verify_ssl = True
 cm_client.configuration.ssl_ca_cert = '/var/lib/cloudera-scm-server/certmanager/trust-store/cm-auto-in_cluster_ca_cert.pem'
 
-# Construct base URL for API
-api_host = 'http://localhost'
+cmprotocol = 'http'
 port = '7180'
 api_version = 'v41'
-api_url = api_host + ':' + port + '/api/' + api_version
-api_client = cm_client.ApiClient(api_url)
 
+## Construct base URL for API
+#port = '7180'
+#api_version = 'v41'
+#api_client = cm_client.ApiClient(api_url)
 
 def saveClusterTemplate():
     cluster_api_instance = cm_client.ClustersResourceApi(api_client)
@@ -154,6 +156,10 @@ if __name__ == "__main__":
     optp.add_option("-l", "--localrepo",    dest="localrepo",    help="Use local repositories")
     optp.add_option("-c", "--parcelsuri",   dest="parcelsuri",   help="URLS of parcel location")
     optp.add_option("-p", "--password",     dest="password",     help="Password to user")
+    optp.add_option("-a", "--apiversion",   dest="apiversion",   help="CM API version")
+    optp.add_option("-x", "--cmport",       dest="cmport",        help="CM port")
+    optp.add_option("-y", "--cmprotocol",   dest="cmprotocol",   help="CM protocol - http or https")
+    optp.add_option("-z", "--license",      dest="license",      help="--license 1 if you have provided a license in license/license.txt --license 0 if using trial license")
     opts, args = optp.parse_args()
 
     if opts.hostname:
@@ -168,10 +174,30 @@ if __name__ == "__main__":
     if opts.password:
         password = opts.password
 
+    if opts.apiversion:
+        api_version = opts.apiversion
+
+    if opts.cmport:
+        port = opts.cmport
+
+    if opts.license:
+        license = opts.license
+
+    if opts.cmprotocol:
+        cm_protocol = opts.cmprotocol
+
+    # Construct base URL for API
+    api_host = cm_protocol + '://' + hostname
+    #api_host = 'http://localhost'
+    api_url = api_host + ':' + port + '/api/' + api_version
+    api_client = cm_client.ApiClient(api_url)
+
     print("Hostname: " + hostname)
 
-    print("Accepting the trial license")
-    acceptTrial()
+    # if no license - deploy 7.1.7 
+    if str(license) == '0':
+        print("Accepting the trial license")
+        acceptTrial()
 
     if str(localrepo) == '1':
         if str(parcelsuri) != '': 

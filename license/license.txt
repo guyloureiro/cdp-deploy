@@ -1,0 +1,37 @@
+#########################################
+###### Add your license file here  ######
+###### It should look something    ######
+###### like the one below - this   ######
+###### one is fake & will not work ######
+#########################################
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+{
+  "deactivationDate" : "2022-12-31",
+  "features" : [ ],
+  "name" : "Joe_Bloggs_2022_2023",
+  "uuid" : "a9a9a9a9-a9a9-9a9a-a9a9-9a9a9a9a9a9a",
+  "version" : 1,
+  "startDate" : "2022-01-01",
+  "expirationDate" : "2022-12-31"
+}
+-----BEGIN PGP SIGNATURE-----
+Version: BCPG v1.46
+
+AiKmnbvdJHGweKJGHHGdsfnasdfkjXLmH8sdfjkh/j8sdfkjhsdUIUbewbGh71Wq
+sdjkfhRYUUBNGFGFDSKKkJlQNjYkIMhusfdhjhhjjhkjhkjhU1ygxcZb0JvPbgx5
+AiKmnbvdJHGweKJGHHGdsfnasdfkjXLmH8sdfjkh/j8sdfkjhsdUIUbewbGh71Wq
+sdjkfhRYUUBNGFGFDSKKkJlQNjYkIMhusfdhjhhjjhkjhkjhU1ygxcZb0JvPbgx5
+AiKmnbvdJHGweKJGHHGdsfnasdfkjXLmH8sdfjkh/j8sdfkjhsdUIUbewbGh71Wq
+sdjkfhRYUUBNGFGFDSKKkJlQNjYkIMhusfdhjhhjjhkjhkjhU1ygxcZb0JvPbgx5
+AiKmnbvdJHGweKJGHHGdsfnasdfkjXLmH8sdfjkh/j8sdfkjhsdUIUbewbGh71Wq
+sdjkfhRYUUBNGFGFDSKKkJlQNjYkIMhusfdhjhhjjhkjhkjhU1ygxcZb0JvPbgx5
+AiKmnbvdJHGweKJGHHGdsfnasdfkjXLmH8sdfjkh/j8sdfkjhsdUIUbewbGh71Wq
+sdjkfhRYUUBNGFGFDSKKkJlQNjYkIMhusfdhjhhjjhkjhkjhU1ygxcZb0JvPbgx5
+AiKmnbvdJHGweKJGHHGdsfnasdfkjXLmH8sdfjkh/j8sdfkjhsdUIUbewbGh71Wq
+ZCy80WKKj0yeG3/zMUmyh3RppiRiA1Knb5okv2OQM/5M9MCvgQk5xQSvw6KBa9cx
+sdjfkhiuj/hgGsdfjhim
+=2geL
+-----END PGP SIGNATURE-----

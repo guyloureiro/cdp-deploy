@@ -20,7 +20,11 @@ The general gist to use cdp-deploy:
 yum -y install git
 git clone https://github.com/willie-engelbrecht/cdp-deploy.git
 
-# Now run the script
+# for licensed version - add your license file here
+./cdp-deploy/license/license.txt
+
+# Check the settings in ./cdp-deploy/repo.env reflect your desired setup
+# Then run the script
 ./cdp-deploy/cdp-deploy.sh
 ```
 
