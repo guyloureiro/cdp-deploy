@@ -10,6 +10,7 @@ err_msg() {
 
 }
 
+# various checks to ensure deployment readiness
 verify_setup() {
 
   # Check if the paywall username/password has values, otherwise quit the script
@@ -76,6 +77,7 @@ verify_setup() {
 
 }
 
+# environment changes for the deployment
 env_setup() {
   
   # Disable SELinux
@@ -88,6 +90,7 @@ env_setup() {
 
 }
 
+# run postgres as the backend RDBMS metadata repository for all the services
 setup_postgres() {
 
 # Setup PostgreSQL 10 repo, and install
@@ -326,9 +329,16 @@ epilogue() {
     cat ${CM_INSTALL_INFO_FILE}  >> /root/.bash_profile
     echo "'" >> /root/.bash_profile
     
-    echo "Cluster installation will take a little while to complete"
-    echo ""
   fi
+ 
+  echo "Cluster installation will take a little while to complete"
+  echo ""
+  echo "Note - if the install_cms_and_cdp step fails, you may need to cleanup the following in CM before rerunning:"
+  echo ""
+  echo "       * delete CMS"
+  echo "       * delete the host"
+  echo '       * delete the "singlenode" cluster'
+  echo ""
 
 }
 
@@ -342,13 +352,13 @@ then
   cd ${BASEDIR}
 fi
 
-# Setup some variables, here and from repo.env
+# Setup script variables - note some in repo.env file
 source repo.env
 export FQDNx="$(hostname -f)" # There will be an annoying space added to the end. Next command will clear it with xargs
 export FQDN=$(echo $FQDNx | xargs)
 export TMP_DT_FILE=/tmp/cluster_template.json
 
-# TBD - ensure this only runs once
+# TBD - ensure this only runs once - this is currently not being used
 # Generate a 12 char random password
 RAND_STRING="a$(echo "$(date)$(hostname)" | md5sum);"
 RAND_PW=$(echo ${RAND_STRING:0:12})
@@ -356,25 +366,26 @@ RAND_PW=$(echo ${RAND_STRING:0:12})
 # bit brutal - for rerunnability
 rm -f /etc/yum.repos.d/cloudera-manager*.repo
 
-verify_setup
-env_setup
+verify_setup                    # checks pre deployment
+env_setup                       # env settings for the deployment
 
-setup_postgres            # postgres used as the backing rdbms
-#setup_mariadb            # TBC
+setup_postgres                  # postgres used as the backing rdbms
+#setup_mariadb                  # TBC
 
-install_setup_deps        # install deps including jdk
+install_setup_deps              # install deps including jdk
 
-download_cm               # download the cm packages
-install_cm                # install cm server, daemons and agents
-prep_scm_db               # install the scm database
-setup_autotls             # TBC
-download_cfm_csds         # for nifi and streaming 
-start_cm                  # start CM
+download_cm                     # download the cm packages
+install_cm                      # install cm server, daemons and agents
+prep_scm_db                     # install the scm database
+setup_autotls                   # TBC
+download_cfm_csds               # for nifi and streaming 
+start_cm                        # start CM
 
-install_license           # install the license via a file if available and enabled in repo.env file
+install_license                 # install the license via a file if available and enabled in repo.env file
 
-setup_deployment_template # 
-setup_cm_sdk
-install_cms_and_cdp
+setup_deployment_template       # replace version specific patterns in the deployment template
+setup_cm_sdk                    # use the cm python api client to set some of this up
+install_cms_and_cdp             # calls cm_install.py python script to install CMS and CDP
 
-epilogue
+epilogue                        # completion messages
+
